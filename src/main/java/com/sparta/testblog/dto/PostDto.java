@@ -6,14 +6,12 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@AllArgsConstructor
 public class PostDto {
     //private Long id;
     private String userId;
     private String title;
-    private String postDesc;
-    private Long fileId;
-    private String filePath;
+    private String content;
 
     /*public Posts toEntity(){
         Posts build = Posts.builder()

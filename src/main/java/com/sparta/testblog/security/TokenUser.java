@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TokenUser {
     private final UserRepository userRepository;
     public Users getUser(HttpServletRequest request) throws Exception {
-        String token = request.getHeader("authorization");
+        String token = request.getHeader("Authorization");
         String userId = JwtTokenProvider.getUserIdFromJWT(token);
         return userRepository.findByUserId(userId).orElseThrow(()->new Exception("invalid Token"));
     }

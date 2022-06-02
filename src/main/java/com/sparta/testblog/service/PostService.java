@@ -131,6 +131,9 @@ public class PostService {
         //return postRepository.save(postDto.toEntity()).getId();
     }
 
+//    public List<PostRequestDto> PostList() {
+//    }
+
     /*@Transactional
     public PostDto getPost(Long id){
         // 뒤에 .get() 안씀..

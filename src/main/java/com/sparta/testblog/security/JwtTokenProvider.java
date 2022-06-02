@@ -3,9 +3,11 @@ package com.sparta.testblog.security;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Base64;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class JwtTokenProvider {
@@ -16,12 +18,12 @@ public class JwtTokenProvider {
     // 토큰 유효시간
     private static final int JWT_EXPIRATION_MS = 604800000;
 
+
     // jwt 토큰 생성
     public static String generateToken(Authentication authentication) {
 
 //        Map<String, Object> headers = new HashMap<>();
 //        headers.put("typ","JWT");
-//        headers.put("authorization",authentication.getPrincipal());
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
 
@@ -37,8 +39,10 @@ public class JwtTokenProvider {
 
     // Jwt 토큰에서 아이디 추출
     public static String getUserIdFromJWT(String token) {
-        Claims claims = Jwts.parser()
+        Claims claims = Jwts
+                .parserBuilder()
                 .setSigningKey(JWT_SECRET)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
 
@@ -48,7 +52,7 @@ public class JwtTokenProvider {
     // Jwt 토큰 유효성 검사
     public static boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(JWT_SECRET).build().parseClaimsJws(token);
             return true;
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature");
@@ -59,7 +63,7 @@ public class JwtTokenProvider {
         } catch (UnsupportedJwtException ex) {
             log.error("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {
-            //log.error("JWT claims string is empty.");
+            log.error("JWT claims string is empty.");
         }
         return false;
     }

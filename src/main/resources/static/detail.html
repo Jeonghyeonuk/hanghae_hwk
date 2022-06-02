@@ -7,11 +7,18 @@
     <title>바다 위 대나무 숲</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <!--    font-family: 'Jua', sans-serif;-->
 
     <script>
+        $(document).ready(function () {
+            if ($.cookie('token')) {
+                $.ajaxSetup({headers: {'Authorization': $.cookie('token')}})
+            }
+        })
+
         $(document).ready(function () {
             getMessages();
         })

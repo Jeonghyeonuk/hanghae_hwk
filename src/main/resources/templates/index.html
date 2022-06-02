@@ -7,45 +7,46 @@
     <title>항해99 대나무숲</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <!--    font-family: 'Jua', sans-serif;-->
     <script>
         $(document).ready(function () {
-            // getMessages();
+            getMessages();
         })
 
-        // // 게시글을 불러옵니다.
-        // function getMessages() {
-        //     $('#cards-box').empty();
-        //     $.ajax({
-        //         type: "GET",
-        //         url: "/api/contents",
-        //         data: {},
-        //         success: function (response) {
-        //             for (let i = 0; i < response.length; i++) {
-        //                 let post = response[i];
-        //                 let id = post.id;
-        //                 let name = post.name;
-        //                 let title = post.title;
-        //                 let contents = post.contents;
-        //                 let modifiedAt = post.modifiedAt;
-        //                 addHTML(id, name, title, contents, modifiedAt);
-        //             }
-        //         }
-        //     });
-        // }
+        // 게시글을 불러옵니다.
+        function getMessages() {
+            $('#cards-box').empty();
+            $.ajax({
+                type: "GET",
+                url: "/api/contents",
+                data: {},
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        let post = response[i];
+                        let id = post.id;
+                        let userId = post.userId;
+                        let title = post.title;
+                        let contents = post.contents;
+                        let modifiedAt = post.modifiedAt;
+                        addHTML(id, userId, title, contents, modifiedAt);
+                    }
+                }
+            });
+        }
 
-        function addHTML(id, name, title, contents, modifiedAt) {
-            let tempHtml = makeMessage(id, name, title, contents, modifiedAt);
+        function addHTML(id, userId, title, contents, modifiedAt) {
+            let tempHtml = makeMessage(id, userId, title, contents, modifiedAt);
             $('#cards-box').append(tempHtml);
         }
 
-        function makeMessage(id, name, title, contents, modifiedAt) {
+        function makeMessage(id, userId, title, contents, modifiedAt) {
             return `<a href="../static/detail.html?id=id">
                         <div class="card">
                             <div class="metadata">
                                <div ${id}="${id}-name" class="name">
-                                   ${name}
+                                   ${userId}
                                </div>
                                <div class="date">
                                    ${modifiedAt}
